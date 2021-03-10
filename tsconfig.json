@@ -15,7 +15,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
+      "@/assets/*": ["assets/*"],
       "@/components/*": ["components/*"],
+      "@/shared/*": ["shared/*"],
+      "@/utils/*": ["utils/*"],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
