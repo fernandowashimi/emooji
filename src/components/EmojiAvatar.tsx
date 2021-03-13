@@ -9,7 +9,7 @@ export const EmojiAvatar = memo(() => {
 
   return (
     <Avatar background="brand">
-      <Text id="random-emoji" role="img" size="24px">
+      <Text id="random-emoji" role="img" size="24px" a11yTitle={emoji.name}>
         {emoji.value}
       </Text>
     </Avatar>

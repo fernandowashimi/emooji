@@ -15,6 +15,7 @@ export function Layout({ children, loading = false }: LayoutProps) {
   return (
     <Box
       fill
+      animation="fadeIn"
       align="center"
       justify="center"
       overflow="auto"
@@ -25,11 +26,11 @@ export function Layout({ children, loading = false }: LayoutProps) {
         <Loading />
       ) : (
         <ResponsiveGrid>
-          <Box fill gridArea="header">
+          <Box fill animation="zoomOut" gridArea="header">
             <Header />
           </Box>
 
-          <Box fill gridArea="body">
+          <Box fill animation="zoomIn" gridArea="body">
             {children}
           </Box>
         </ResponsiveGrid>

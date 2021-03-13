@@ -1,13 +1,17 @@
-import Link from 'next/link';
+import { useCallback, useContext } from 'react';
 
-import { Anchor, Avatar, Button, Box, Tip } from 'grommet';
-import { Logout } from 'grommet-icons';
+import { useRouter } from 'next/router';
+
+import { Anchor, Avatar, Button, Box, Menu, ResponsiveContext, Text, Tip } from 'grommet';
+import { Logout, Menu as MenuIcon } from 'grommet-icons';
 import { signIn, signOut, useSession } from 'next-auth/client';
 
 import { EmojiAvatar } from '@/components/EmojiAvatar';
 
 export function Header() {
   const [session] = useSession();
+  const { push } = useRouter();
+  const size = useContext(ResponsiveContext);
 
   const handleSignOut = () => {
     signOut();
@@ -17,26 +21,96 @@ export function Header() {
     signIn('google');
   };
 
+  const handleGoToHome = () => {
+    push('/');
+  };
+
+  const handleGoToCalendar = () => {
+    push('/calendar');
+  };
+
+  const getMenuItems = useCallback(() => {
+    const signOutItem = {
+      label: (
+        <Box pad={{ horizontal: 'large' }}>
+          <Text>sair</Text>
+        </Box>
+      ),
+      onClick: handleSignOut,
+    };
+    const signInItem = {
+      label: (
+        <Box pad={{ horizontal: 'large' }}>
+          <Text>entrar</Text>
+        </Box>
+      ),
+      onClick: handleSignIn,
+    };
+
+    let items = [
+      {
+        label: (
+          <Box pad={{ horizontal: 'large' }}>
+            <Text>início</Text>
+          </Box>
+        ),
+        onClick: handleGoToHome,
+      },
+      {
+        label: (
+          <Box pad={{ horizontal: 'large' }}>
+            <Text>calendário</Text>
+          </Box>
+        ),
+        onClick: handleGoToCalendar,
+      },
+    ];
+
+    if (session) {
+      items.push(signOutItem);
+    } else {
+      items.push(signInItem);
+    }
+
+    return items;
+  }, [session]);
+
   return (
     <Box fill direction="row" justify="between" align="center">
-      <Box direction="row" align="center" gap="medium">
+      <Box direction="row" gap="medium">
         {session ? <Avatar src={session.user.image!} /> : <EmojiAvatar />}
 
-        <Link href="/">
-          <Anchor label="início" />
-        </Link>
+        {size !== 'small' && (
+          <Box direction="row" align="center" gap="medium">
+            <Anchor label="início" onClick={handleGoToHome} />
 
-        <Link href="/details">
-          <Anchor label="calendário" />
-        </Link>
+            <Anchor label="calendário" onClick={handleGoToCalendar} />
+          </Box>
+        )}
       </Box>
 
-      {session ? (
-        <Tip content="sair">
-          <Anchor icon={<Logout />} onClick={handleSignOut} />
-        </Tip>
+      {size === 'small' ? (
+        <Menu
+          size="large"
+          label={
+            <Box pad={{ horizontal: 'large' }}>
+              <Text color="brand">menu</Text>
+            </Box>
+          }
+          dropAlign={{ top: 'top', right: 'right' }}
+          icon={<MenuIcon color="brand" />}
+          items={getMenuItems()}
+        />
       ) : (
-        <Button primary label="entrar" onClick={handleSignIn} style={{ fontWeight: 700 }} />
+        <>
+          {session ? (
+            <Tip content="sair">
+              <Anchor icon={<Logout />} onClick={handleSignOut} />
+            </Tip>
+          ) : (
+            <Button primary label="entrar" onClick={handleSignIn} style={{ fontWeight: 700 }} />
+          )}
+        </>
       )}
     </Box>
   );
