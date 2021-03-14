@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import Head from 'next/head';
+
 import { Box } from 'grommet';
 
 import { ResponsiveGrid } from '@/components/ResponsiveGrid';
@@ -22,6 +24,10 @@ export function Layout({ children, loading = false }: LayoutProps) {
       pad="medium"
       background={{ color: 'background-back' }}
     >
+      <Head>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+
       {loading ? (
         <Loading />
       ) : (

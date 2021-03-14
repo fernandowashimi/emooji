@@ -6,18 +6,14 @@ interface ResponsiveGridProps {
   children: ReactNode;
 }
 
-interface Map<T> {
-  [key: string]: T;
-}
-
-const columns: Map<string[]> = {
+const columns: Application.Map<string[]> = {
   small: ['flex'],
   medium: ['flex'],
   large: ['flex'],
   xlarge: ['auto', 'large', 'auto'],
 };
 
-const areas: Map<{ name: string; start: number[]; end: number[] }[]> = {
+const areas: Application.Map<{ name: string; start: number[]; end: number[] }[]> = {
   small: [
     { name: 'header', start: [0, 0], end: [0, 0] },
     { name: 'body', start: [0, 1], end: [0, 1] },

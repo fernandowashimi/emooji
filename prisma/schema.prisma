@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model Account {
@@ -47,6 +47,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  days          Day[]
 
   @@map(name: "users")
 }
@@ -60,4 +61,15 @@ model VerificationRequest {
   updatedAt  DateTime @default(now()) @map(name: "updated_at")
 
   @@map(name: "verification_requests")
+}
+
+model Day {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  emoji     Int
+  user      User?    @relation(fields: [userEmail], references: [email])
+  userEmail String?
+
+  @@unique([userEmail, date])
+  @@map(name: "days")
 }

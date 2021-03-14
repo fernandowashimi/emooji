@@ -3,3 +3,14 @@ declare namespace NodeJS {
     prisma: any;
   }
 }
+
+declare namespace Application {
+  interface Map<T> {
+    [key: string]: T;
+  }
+
+  interface CreateOrUpdateDayInput {
+    date: Date;
+    emoji: number;
+  }
+}

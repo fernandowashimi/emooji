@@ -1,3 +1,15 @@
+const EmojiValue: Application.Map<{ value: string; name: string }> = {
+  1: { value: '😞', name: 'triste / deprimido' },
+  2: { value: '😠', name: 'zangado / irritado' },
+  3: { value: '🤒', name: 'cansado / doente' },
+  4: { value: '😰', name: 'nervoso / ansioso' },
+  5: { value: '😐', name: 'normal / mediano' },
+  6: { value: '😌', name: 'calmo / relaxado' },
+  7: { value: '🙂', name: 'produtivo / motivado' },
+  8: { value: '😊', name: 'animado / contente' },
+  9: { value: '😃', name: 'feliz / alegre' },
+};
+
 const emojis = [
   {
     value: '😀',
@@ -119,4 +131,8 @@ const emojis = [
 
 export function getRandomEmoji() {
   return emojis[Math.floor(Math.random() * emojis.length)];
+}
+
+export function getEmojiByValue(value: number) {
+  return EmojiValue[value];
 }

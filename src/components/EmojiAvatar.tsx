@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { Avatar, Text } from 'grommet';
 
-import { getRandomEmoji } from '@/utils/random-emoji';
+import { getRandomEmoji } from '@/utils/emojis';
 
 export const EmojiAvatar = memo(() => {
   const emoji = getRandomEmoji();
