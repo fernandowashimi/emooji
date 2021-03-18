@@ -18,6 +18,7 @@
       "@/assets/*": ["assets/*"],
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
+      "@/pages/*": ["pages/*"],
       "@/services/*": ["services/*"],
       "@/shared/*": ["shared/*"],
       "@/utils/*": ["utils/*"],

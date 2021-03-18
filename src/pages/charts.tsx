@@ -1,12 +1,11 @@
-import { signIn, useSession } from 'next-auth/client';
-
 import Head from 'next/head';
 
 import { Anchor, Box, Heading, Text } from 'grommet';
+import { signIn, useSession } from 'next-auth/client';
 
 import { Layout } from '@/components/Layout';
 
-export default function Home() {
+export default function Chart() {
   const [session, loading] = useSession();
 
   const handleSignIn = () => {
@@ -16,17 +15,15 @@ export default function Home() {
   return (
     <Layout loading={loading}>
       <Head>
-        <title>calendário | emooji</title>
+        <title>página inicial | emooji</title>
       </Head>
 
-      <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="large">
+      <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="small">
         {session ? (
           <Box direction="column" gap="medium" align="center">
-            <Box>
-              <Heading level="4" textAlign="center">
-                📅 Calendário
-              </Heading>
-            </Box>
+            <Heading level="4" textAlign="center">
+              Gráficos
+            </Heading>
           </Box>
         ) : (
           <Text>

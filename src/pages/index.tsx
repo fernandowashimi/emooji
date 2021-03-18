@@ -1,35 +1,69 @@
-import { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 
-import { signIn, useSession } from 'next-auth/client';
+import { getSession, signIn, useSession } from 'next-auth/client';
 
-import { Anchor, Box, Button, DateInput, ResponsiveContext, Text } from 'grommet';
-import { View } from 'grommet-icons';
+import { Anchor, Box, Button, Heading, Text } from 'grommet';
+import { Next, Previous } from 'grommet-icons';
+import useSWR from 'swr';
 
 import { Layout } from '@/components/Layout';
-import { parseDateString } from '@/utils/api-parameters';
+import { CalendarGrid } from '@/components/CalendarGrid';
+import { getDays } from '@/pages/api/days';
+import { getDaysFromMonth } from '@/services/api';
+import { getMonthName, getFirstDayOfMonth, getLastDayOfMonth } from '@/utils/dates';
 
-export default function Home() {
-  const size = useContext(ResponsiveContext);
-  const { push } = useRouter();
+interface HomeProps {
+  initialDays: Array<Application.Day>;
+}
+
+const today = new Date();
+const initialMonth = today.getMonth();
+const initialYear = today.getUTCFullYear();
+const initialRange = {
+  gte: getFirstDayOfMonth(initialYear, initialMonth).string,
+  lte: getLastDayOfMonth(initialYear, initialMonth).string,
+};
+const initialDate = {
+  year: initialYear,
+  month: initialMonth,
+};
+
+export default function Home({ initialDays }: HomeProps) {
   const [session, loading] = useSession();
-  const [date, setDate] = useState<string>(new Date().toISOString());
+  const [range, setRange] = useState(initialRange);
+  const [date, setDate] = useState(initialDate);
+  const [animation, setAnimation] = useState<'slideLeft' | 'slideRight' | undefined>(undefined);
+  const { data: days } = useSWR(['/api/days', range], () => getDaysFromMonth(range), {
+    initialData: initialDays,
+  });
 
-  const handleSignIn = () => signIn('google');
-
-  const handleDateChange = ({ value }: { value: string | string[] }) => {
-    if (Array.isArray(value)) return;
-
-    setDate(value);
+  const handleSignIn = () => {
+    signIn('google');
   };
 
-  const handleView = () => {
-    const url = parseDateString(date);
-
-    push(`/day/${url}`);
+  const handlePreviousMonth = () => {
+    setAnimation('slideRight');
+    setDate((prev) =>
+      prev.month <= 0 ? { year: prev.year - 1, month: 11 } : { ...prev, month: prev.month - 1 },
+    );
   };
+
+  const handleNextMonth = () => {
+    setAnimation('slideLeft');
+    setDate((prev) =>
+      prev.month >= 11 ? { year: prev.year + 1, month: 0 } : { ...prev, month: prev.month + 1 },
+    );
+  };
+
+  useEffect(() => {
+    const gte = getFirstDayOfMonth(date.year, date.month).string;
+    const lte = getLastDayOfMonth(date.year, date.month).string;
+
+    setRange({ gte, lte });
+  }, [date]);
 
   return (
     <Layout loading={loading}>
@@ -37,29 +71,36 @@ export default function Home() {
         <title>página inicial | emooji</title>
       </Head>
 
-      <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="large">
+      <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="small">
         {session ? (
           <Box direction="column" gap="medium" align="center">
-            <Box width={size === 'small' ? 'full' : 'medium'}>
-              <DateInput
-                format="dd/mm/yyyy"
-                calendarProps={{
-                  fill: true,
-                  locale: 'pt-BR',
-                  daysOfWeek: true,
-                }}
-                value={date}
-                onChange={handleDateChange}
-              />
+            <Box
+              fill="horizontal"
+              direction="row"
+              justify="between"
+              align="center"
+              pad={{ horizontal: 'small' }}
+            >
+              <Heading level="4" textAlign="center">
+                📅 {getMonthName(date.month)} de {date.year}
+              </Heading>
+              <Box direction="row">
+                <Button hoverIndicator icon={<Previous />} onClick={handlePreviousMonth} />
+                <Button
+                  hoverIndicator
+                  icon={<Next />}
+                  onClick={handleNextMonth}
+                  disabled={date.month === initialMonth && date.year === initialYear}
+                />
+              </Box>
             </Box>
 
-            <Box width={size === 'small' ? 'full' : 'small'}>
-              <Button
-                primary
-                fill="horizontal"
-                label="visualizar"
-                icon={<View />}
-                onClick={handleView}
+            <Box width="full" direction="column">
+              <CalendarGrid
+                days={days || []}
+                year={date.year}
+                month={date.month}
+                animation={animation}
               />
             </Box>
           </Box>
@@ -71,4 +112,14 @@ export default function Home() {
       </Box>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      initialDays: await getDays({ params: initialRange, session }),
+    },
+  };
 }

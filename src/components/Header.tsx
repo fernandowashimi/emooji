@@ -25,8 +25,8 @@ export function Header() {
     push('/');
   };
 
-  const handleGoToCalendar = () => {
-    push('/calendar');
+  const handleGoToCharts = () => {
+    push('/charts');
   };
 
   const getMenuItems = useCallback(() => {
@@ -38,6 +38,7 @@ export function Header() {
       ),
       onClick: handleSignOut,
     };
+
     const signInItem = {
       label: (
         <Box pad={{ horizontal: 'large' }}>
@@ -59,10 +60,10 @@ export function Header() {
       {
         label: (
           <Box pad={{ horizontal: 'large' }}>
-            <Text>calendário</Text>
+            <Text>gráficos</Text>
           </Box>
         ),
-        onClick: handleGoToCalendar,
+        onClick: handleGoToCharts,
       },
     ];
 
@@ -84,7 +85,7 @@ export function Header() {
           <Box direction="row" align="center" gap="medium">
             <Anchor label="início" onClick={handleGoToHome} />
 
-            <Anchor label="calendário" onClick={handleGoToCalendar} />
+            <Anchor label="gráficos" onClick={handleGoToCharts} />
           </Box>
         )}
       </Box>
