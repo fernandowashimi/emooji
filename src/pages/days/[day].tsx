@@ -104,7 +104,7 @@ export default function Day({ date, day }: DayProps) {
             )}
           </Box>
         ) : (
-          <Text>
+          <Text margin="medium">
             faça o <Anchor label="login" onClick={handleSignIn} /> para continuar.
           </Text>
         )}

@@ -16,10 +16,11 @@ interface LayoutProps {
 export function Layout({ children, loading = false }: LayoutProps) {
   return (
     <Box
-      fill
+      fill="horizontal"
+      height={{ min: '100vh' }}
       animation="fadeIn"
       align="center"
-      justify="center"
+      justify="start"
       overflow="auto"
       pad="medium"
       background={{ color: 'background-back' }}

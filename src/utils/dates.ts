@@ -29,7 +29,9 @@ export function getDateBounds(date: Date) {
 }
 
 export function getDaysInMonth(year: number, month: number) {
-  const date = new Date(year, month, 0);
+  const date = new Date(year, month + 1, 0);
+
+  console.log(date.getDate());
 
   return date.getDate();
 }

@@ -5,15 +5,15 @@ import Head from 'next/head';
 
 import { getSession, signIn, useSession } from 'next-auth/client';
 
-import { Anchor, Box, Button, Heading, Text } from 'grommet';
-import { Next, Previous } from 'grommet-icons';
+import { Anchor, Box, Text } from 'grommet';
 import useSWR from 'swr';
 
 import { Layout } from '@/components/Layout';
 import { CalendarGrid } from '@/components/CalendarGrid';
+import { MonthStepper } from '@/components/MonthStepper';
 import { getDays } from '@/pages/api/days';
 import { getDaysFromMonth } from '@/services/api';
-import { getMonthName, getFirstDayOfMonth, getLastDayOfMonth } from '@/utils/dates';
+import { getFirstDayOfMonth, getLastDayOfMonth } from '@/utils/dates';
 
 interface HomeProps {
   initialDays: Array<Application.Day>;
@@ -74,26 +74,11 @@ export default function Home({ initialDays }: HomeProps) {
       <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="small">
         {session ? (
           <Box direction="column" gap="medium" align="center">
-            <Box
-              fill="horizontal"
-              direction="row"
-              justify="between"
-              align="center"
-              pad={{ horizontal: 'small' }}
-            >
-              <Heading level="4" textAlign="center">
-                📅 {getMonthName(date.month)} de {date.year}
-              </Heading>
-              <Box direction="row">
-                <Button hoverIndicator icon={<Previous />} onClick={handlePreviousMonth} />
-                <Button
-                  hoverIndicator
-                  icon={<Next />}
-                  onClick={handleNextMonth}
-                  disabled={date.month === initialMonth && date.year === initialYear}
-                />
-              </Box>
-            </Box>
+            <MonthStepper
+              date={date}
+              onNextMonth={handleNextMonth}
+              onPreviousMonth={handlePreviousMonth}
+            />
 
             <Box width="full" direction="column">
               <CalendarGrid
@@ -105,8 +90,8 @@ export default function Home({ initialDays }: HomeProps) {
             </Box>
           </Box>
         ) : (
-          <Text>
-            Faça o <Anchor label="login" onClick={handleSignIn} /> para continuar.
+          <Text margin="medium">
+            faça o <Anchor label="login" onClick={handleSignIn} /> para continuar.
           </Text>
         )}
       </Box>
