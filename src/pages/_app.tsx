@@ -1,15 +1,14 @@
 import { AppProps } from 'next/app';
 
-import { Grommet } from 'grommet';
-import { Provider } from 'next-auth/client';
+import { Provider as AuthProvider } from 'next-auth/client';
 import { SWRConfig } from 'swr';
 
-import { theme } from '@/shared/theme';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Grommet full theme={theme}>
-      <Provider session={pageProps.session}>
+    <ThemeProvider>
+      <AuthProvider session={pageProps.session}>
         <SWRConfig
           value={{
             revalidateOnFocus: false,
@@ -17,7 +16,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         >
           <Component {...pageProps} />
         </SWRConfig>
-      </Provider>
-    </Grommet>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

@@ -19,6 +19,7 @@
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
       "@/pages/*": ["pages/*"],
+      "@/providers/*": ["providers/*"],
       "@/services/*": ["services/*"],
       "@/shared/*": ["shared/*"],
       "@/utils/*": ["utils/*"],

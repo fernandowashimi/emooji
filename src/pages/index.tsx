@@ -71,7 +71,7 @@ export default function Home({ initialDays }: HomeProps) {
         <title>página inicial | emooji</title>
       </Head>
 
-      <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="small">
+      <Box background={{ color: 'background-front' }} round="medium" pad="small">
         {session ? (
           <Box direction="column" gap="medium" align="center">
             <MonthStepper

@@ -65,7 +65,7 @@ export default function Day({ date, day }: DayProps) {
         <title>{d.toLocaleDateString('pt-BR')} | emooji</title>
       </Head>
 
-      <Box background={{ color: 'background-front' }} round="medium" elevation="small" pad="large">
+      <Box background={{ color: 'background-front' }} round="medium" pad="large">
         <Box>
           <Anchor alignSelf="start" href="/" label="voltar" icon={<FormPreviousLink />} />
         </Box>

@@ -7,10 +7,6 @@ const theme: ThemeType = {
         dark: '#BF5D0D',
         light: '#F6B179',
       },
-      google: {
-        dark: '#333333',
-        light: '#FFFFFF',
-      },
       background: {
         light: '#FFFFFF',
         dark: '#111111',
@@ -21,7 +17,7 @@ const theme: ThemeType = {
       },
       'background-front': {
         dark: '#222222',
-        light: '#fff',
+        light: '#FFFFFF',
       },
       'background-contrast': {
         dark: '#FFFFFF11',
@@ -214,6 +210,9 @@ const theme: ThemeType = {
       lineHeight: 1.11,
       daySize: '109.71px',
     },
+  },
+  anchor: {
+    color: 'brand',
   },
   clock: {
     analog: {

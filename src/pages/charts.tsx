@@ -68,13 +68,7 @@ export default function Chart({ initialDays }: ChartProps) {
         <title>estatísticas | emooji</title>
       </Head>
 
-      <Box
-        fill
-        background={{ color: 'background-front' }}
-        round="medium"
-        elevation="small"
-        pad="small"
-      >
+      <Box fill background={{ color: 'background-front' }} round="medium" pad="small">
         {session ? (
           <Box direction="column" gap="medium" align="center">
             <MonthStepper

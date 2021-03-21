@@ -24,4 +24,6 @@ declare namespace Application {
     gte: string;
     lte: string;
   }
+
+  type ThemeMode = 'light' | 'dark';
 }

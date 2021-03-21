@@ -2,8 +2,8 @@ import { useCallback, useContext } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Anchor, Avatar, Button, Box, Menu, ResponsiveContext, Text, Tip } from 'grommet';
-import { Logout, Menu as MenuIcon } from 'grommet-icons';
+import { Anchor, Avatar, Button, Box, Menu, ResponsiveContext, Text } from 'grommet';
+import { Configure, Logout, Menu as MenuIcon } from 'grommet-icons';
 import { signIn, signOut, useSession } from 'next-auth/client';
 
 import { EmojiAvatar } from '@/components/EmojiAvatar';
@@ -27,6 +27,10 @@ export function Header() {
 
   const handleGoToCharts = () => {
     push('/charts');
+  };
+
+  const handleGoToSettings = () => {
+    push('/settings');
   };
 
   const getMenuItems = useCallback(() => {
@@ -65,13 +69,17 @@ export function Header() {
         ),
         onClick: handleGoToCharts,
       },
+      {
+        label: (
+          <Box pad={{ horizontal: 'large' }}>
+            <Text>configurações</Text>
+          </Box>
+        ),
+        onClick: handleGoToSettings,
+      },
     ];
 
-    if (session) {
-      items.push(signOutItem);
-    } else {
-      items.push(signInItem);
-    }
+    items.push(session ? signOutItem : signInItem);
 
     return items;
   }, [session]);
@@ -103,15 +111,18 @@ export function Header() {
           items={getMenuItems()}
         />
       ) : (
-        <>
+        <Box direction="row" align="center">
+          <Button
+            tip="configurações"
+            icon={<Configure color="brand" />}
+            onClick={handleGoToSettings}
+          />
           {session ? (
-            <Tip content="sair">
-              <Anchor icon={<Logout />} onClick={handleSignOut} />
-            </Tip>
+            <Button tip="sair" icon={<Logout color="brand" />} onClick={handleSignOut} />
           ) : (
             <Button primary label="entrar" onClick={handleSignIn} style={{ fontWeight: 700 }} />
           )}
-        </>
+        </Box>
       )}
     </Box>
   );
