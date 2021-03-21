@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import Head from 'next/head';
 
-import { Box } from 'grommet';
+import { Box, Text } from 'grommet';
 
 import { ResponsiveGrid } from '@/components/ResponsiveGrid';
 import { Header } from '@/components/Header';
@@ -39,6 +39,12 @@ export function Layout({ children, loading = false }: LayoutProps) {
 
           <Box fill animation="zoomIn" gridArea="body">
             {children}
+          </Box>
+
+          <Box fill animation="zoomIn" gridArea="footer">
+            <Text color="text-xweak" size="xsmall" alignSelf="center">
+              Feito com 🤩 por Fernando Shinji.
+            </Text>
           </Box>
         </ResponsiveGrid>
       )}
