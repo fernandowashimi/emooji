@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 
-import { getSession, signIn, useSession } from 'next-auth/client';
-
 import { Anchor, Box, Text } from 'grommet';
+import { getSession, signIn, useSession } from 'next-auth/client';
 import useSWR from 'swr';
 
 import { Layout } from '@/components/Layout';

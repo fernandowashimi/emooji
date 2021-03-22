@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { Box, Text } from 'grommet';
+import { Box } from 'grommet';
 import lottie from 'lottie-web';
 
 import loadingAnimation from '@/assets/lottie/loading.json';
