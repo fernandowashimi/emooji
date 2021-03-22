@@ -24,7 +24,7 @@ export default function Home() {
         {session ? (
           <Box direction="column" gap="medium" align="center" pad="medium">
             <Box fill="horizontal" direction="row" justify="between">
-              <Text>Modo noturno</Text>
+              <Text>modo noturno</Text>
 
               <CheckBox toggle checked={mode === 'dark'} onChange={toggleMode} />
             </Box>
